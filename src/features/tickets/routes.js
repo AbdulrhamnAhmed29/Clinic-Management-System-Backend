@@ -9,12 +9,12 @@ import { authorized } from "../../auth/middlewares/authorized.js";
 
 export const ticketRouter = Router();
 
-ticketRouter.get("/", authenticated, authorized("clinic_admin", "employee"), getTicketController);
-ticketRouter.get("/:id", authenticated, authorized("clinic_admin", "employee"), getTicketById);
+ticketRouter.get("/", authenticated, authorized( "super_admin","clinic_admin", "employee"), getTicketController);
+ticketRouter.get("/:id", authenticated, authorized( "super_admin","clinic_admin", "employee"), getTicketById);
 ticketRouter.post(
   "/",
   authenticated,
-  authorized("clinic_admin", "employee"),
+  authorized( "super_admin","clinic_admin", "employee"),
   validateBody(createTicketSchema),
   createTicketController
 );
