@@ -15,25 +15,25 @@ import { authenticated } from "../../auth/middlewares/authnticated.js";
 export const userRouter = Router();
 userRouter
   .route("/")
-  .get(authenticated, authorized("super_admin"), getUsersController)
+  .get(authenticated, getUsersController)
   .post(
     authenticated,
-    authorized("super_admin ,clinic_admin"),
+    authorized("super_admin","clinic_admin"),
     validateBody(createUserSchema),
     createUserController
   );
 
 userRouter
   .route("/:id")
-  .get(authenticated, authorized("super_admin  clinic_admin"), getUserByIdController)
+  .get(authenticated, getUserByIdController)
   .patch(
     authenticated,
-    authorized("super_admin clinic_admin"),
+    authorized("super_admin"),
     validateBody(updateUserSchema),
     updateUserController
   )
   .delete(
     authenticated,
-    authorized("super_admin ,clinic_admin"),
+    authorized("super_admin" ,"clinic_admin"),
     deleteUserController
   );

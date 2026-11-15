@@ -4,6 +4,7 @@ import { handleDuplicateEmail, toPublicUser } from "./userControllerHelpers.js";
 
 export const createUserController = async (req, res, next) => {
   try {
+    
     const user = await User.create({
       ...req.body,
       password: await bcrypt.hash(req.body.password, 12),

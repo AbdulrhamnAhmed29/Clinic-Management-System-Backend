@@ -3,7 +3,7 @@ import { listUsersQuerySchema } from "../validators/userValidation.js";
 
 export const getUsersController = async (req, res, next) => {
   const validation = listUsersQuerySchema.safeParse(req.query);
-
+const tenantId = req.user.tenantId
   if (!validation.success) {
     return res.status(400).json({
       message: "Invalid user query",
@@ -13,15 +13,20 @@ export const getUsersController = async (req, res, next) => {
       })),
     });
   }
+  console.log(req.user);
+  
 
   const { cursor, limit, role } = validation.data;
-  const filter = role ? { role } : {};
+  const filter = { tenantId };
+  if (role) filter.role = role
+
 
   if (cursor) {
     filter._id = { $gt: cursor }
   }
 
   let hasMore = false;
+
 
   try {
     const [users] = await Promise.all([

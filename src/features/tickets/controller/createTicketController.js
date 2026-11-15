@@ -4,8 +4,9 @@ import { createTicketSchema } from "../validators/createTicketValidation.js";
 export const createTicketController = async (req, res, next) => {
   const validation = createTicketSchema.safeParse(req.body);
   const data = validation.data;
+  const payload = {data, tenantId:req.user.tenantId}
   try {
-    const ticket = await createTicketServices(data)
+    const ticket = await createTicketServices(payload)
     return res.status(201).json({
       message: "Ticket created successfully",
       ticket,

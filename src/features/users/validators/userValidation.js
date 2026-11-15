@@ -10,6 +10,7 @@ export const createUserSchema = z.object({
   email: z.string().trim().email("A valid email is required").toLowerCase(),
   password: passwordSchema,
   role: userRoleSchema.optional(),
+  tenantId:z.string()
 });
 
 export const updateUserSchema = z

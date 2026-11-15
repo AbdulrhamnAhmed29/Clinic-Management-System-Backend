@@ -2,7 +2,11 @@ import Queue from "../../queues/model/queueModel.js";
 import Ticket from "../model/ticketModel.js";
 
 export const createTicketServices = async (ticketData) => {
-    const data = ticketData;
+    const data = ticketData.data;
+    console.log(data);
+
+
+
     // UPDATE LAST TICKET NUMBER
     const updateQueue = await Queue.findOneAndUpdate(
         //id
@@ -19,7 +23,16 @@ export const createTicketServices = async (ticketData) => {
     const ticketNumber = updateQueue.lastTicketNumber;
 
     // SEND TICKET DATA
-    const ticket = await Ticket.create({ ...data, ticketNumber })
+    const ticket = await Ticket.create({
+        queueId: data.queueId,
+        customerName: data.customerName,
+        customerPhone: data.customerPhone,
+        status: data.status,
+        scheduledAt: data.scheduledAt,
+        dateString: data.dateString,
+        ticketNumber: ticketNumber,
+        tenantId: ticketData.tenantId
+    })
     return ticket
 
 }

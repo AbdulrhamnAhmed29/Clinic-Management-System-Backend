@@ -43,7 +43,7 @@ const ticketSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-ticketSchema.index({ queueId: 1, dateString: 1, ticketNumber: 1 }, { unique: true });
+ticketSchema.index({ tenantId: 1, queueId: 1, dateString: 1, ticketNumber: 1 }, { unique: true }); 
 ticketSchema.index({ queueId: 1, dateString: 1, status: 1, ticketNumber: 1 });
 
 const Ticket = mongoose.model("Ticket", ticketSchema);
