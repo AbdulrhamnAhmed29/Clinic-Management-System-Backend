@@ -19,7 +19,7 @@ queueRouter
   .get(authenticated, authorized("clinic_admin"),  getQueuesController)
   .post(
     authenticated,
-    authorized("clinic_admin  "), 
+    authorized("clinic_admin"), 
     validateBody(createQueueSchema),
     createQueueController
   );

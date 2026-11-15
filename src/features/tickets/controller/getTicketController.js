@@ -28,6 +28,12 @@ export const getTicketController = async (req, res, next) => {
     if (cursor) {
       filter._id = { $gt: cursor }
     }
+    if (req.user.role !== "super_admin") {
+      filter.tenantId = req.user.tenantId;
+    }
+    if (req.user.role !== "super_admin" && !req.user.tenantId) {
+      return res.status(403).json({ message: "Tenant is missing" });
+    }
     const tickets = await Ticket.find(filter).sort({ createdAt: 1 })
       .limit(limit + 1).select("customerName ticketNumber status")
 
@@ -39,7 +45,7 @@ export const getTicketController = async (req, res, next) => {
     return res.status(200).json({
       count: tickets.length,
       tickets: tickets,
-      nextCursor: nextCursor 
+      nextCursor: nextCursor
     });
   } catch (error) {
     return next(error);

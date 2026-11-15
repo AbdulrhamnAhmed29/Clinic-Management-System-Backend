@@ -7,8 +7,9 @@ export const loginController = async (req, res, next) => {
   const normalizedEmail = String(email || "").trim().toLowerCase();
 
   try {
-    const user = await User.findOne({ email: normalizedEmail }).select("+password");
-
+     const user = await User.findOne({ email: normalizedEmail }).select("+password");
+   console.log(user.tenantId);
+   
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -40,6 +41,7 @@ export const loginController = async (req, res, next) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
+        path: "/",
         maxAge: 24 * 60 * 60 * 1000,
       })
       .status(200)

@@ -11,4 +11,5 @@ export const createTicketSchema = z.object({
     .enum(["waiting", "serving", "completed", "skipped", "cancelled"])
     .default("waiting"),
   scheduledAt: z.coerce.date("scheduledAt must be a valid date"),
+  dateString:z.coerce.date()
 });

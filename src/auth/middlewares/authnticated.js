@@ -28,6 +28,7 @@ export const authenticated = (req, res, next) => {
   let payload;
   try {
     payload = jwt.verify(token, process.env.JWT_SECRET);
+    
   } catch (error) {
     if (
       error instanceof jwt.JsonWebTokenError ||
@@ -54,6 +55,6 @@ export const authenticated = (req, res, next) => {
     });
   }
 
-  req.user = { id: payload.id, role: payload.role  , tenantId:payload.tenantId};
+  req.user = { id: payload.id, role: payload.role , tenantId:payload.tenantId  };
   return next();
 };

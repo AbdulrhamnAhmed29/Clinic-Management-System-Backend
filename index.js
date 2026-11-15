@@ -14,11 +14,13 @@ app.use(express.json());
 
 // routes  
 
+
+
 app.use("/api/auth", AuthRoutes)
 app.use("/api/ticket", ticketRouter)
 app.use("/api/queues", queueRouter)
 app.use("/api/users", userRouter)
-app.use("/api/tenant" , tenantRouter)
+app.use("/api/tenant", tenantRouter)
 
 app.use((error, req, res, next) => {
     if (error instanceof ZodError) {
@@ -37,5 +39,6 @@ app.use((error, req, res, next) => {
 
 connectDb()
 app.listen(PORT, () => {
+    
     console.log(`server has been successfully in https//localhost:${PORT}`);
 })

@@ -24,8 +24,7 @@ tenantRouter.post(
 
 tenantRouter.get(
   "/",
-  authenticated,
-  authorized("super_admin"),
+    authorized("super_admin"),
   getTenantsController
 );
 
