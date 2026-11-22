@@ -7,13 +7,21 @@ import { userRouter } from "./src/features/users/routes.js";
 import { ZodError } from "zod";
 import { AuthRoutes } from "./src/auth/routes.js";
 import { tenantRouter } from "./src/features/tenant/routes.js";
+import cors from "cors"
 dotenv.config()
 const app = express();
 const PORT = process.env.PORT
 app.use(express.json());
 
 // routes  
-
+app.use(
+    cors({
+        origin: "http://localhost:5173", 
+        credentials: true,              
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
+);
 
 
 app.use("/api/auth", AuthRoutes)

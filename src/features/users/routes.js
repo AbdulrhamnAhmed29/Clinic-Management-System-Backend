@@ -11,29 +11,33 @@ import {
 } from "./validators/userValidation.js";
 import { authorized } from "../../auth/middlewares/authorized.js";
 import { authenticated } from "../../auth/middlewares/authnticated.js";
+import { upload } from "../../middlewares/uploadImages.js";
+import { uploadImagesControllers } from "./controller/uploadImagesController.js";
 
 export const userRouter = Router();
 userRouter
   .route("/")
-  .get(authenticated ,authorized("super_admin","clinic_admin"), getUsersController)
+  .get(authenticated, authorized("super_admin", "clinic_admin"), getUsersController)
   .post(
     authenticated,
-    authorized("super_admin","clinic_admin"),
+    authorized("super_admin", "clinic_admin"),
     validateBody(createUserSchema),
     createUserController
   );
 
 userRouter
   .route("/:id")
-  .get(authenticated,authorized("super_admin","clinic_admin"), getUserByIdController)
+  .get(authenticated, authorized("super_admin", "clinic_admin"), getUserByIdController)
   .patch(
     authenticated,
-  authorized( "super_admin","clinic_admin"),
+    authorized("super_admin", "clinic_admin"),
     validateBody(updateUserSchema),
     updateUserController
   )
   .delete(
     authenticated,
-    authorized("super_admin" ,"clinic_admin"),
+    authorized("super_admin", "clinic_admin"),
     deleteUserController
   );
+
+userRouter.post("/upload", upload.single("image"), uploadImagesControllers)
