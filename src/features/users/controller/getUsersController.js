@@ -31,8 +31,8 @@ const tenantId = req.user.tenantId
   try {
     const [users] = await Promise.all([
       User.find(filter)
-        .select(" role name")
-        .sort({ createdAt: -1 })
+        .select(" role name ")
+        .populate("tenantId", "name")
         .limit(limit + 1),
     ]);
     if (users.length > limit) {
@@ -43,7 +43,9 @@ const tenantId = req.user.tenantId
     const nextCursor = hasMore ? users[users.length - 1]._id : null
     return res.status(200).json({
       users,
-      nextCursor
+      nextCursor,
+      hasMore,
+      count:users.length
 
     });
   } catch (error) {

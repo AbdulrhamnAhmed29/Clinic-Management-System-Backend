@@ -7,17 +7,18 @@ export const loginController = async (req, res, next) => {
   const normalizedEmail = String(email || "").trim().toLowerCase();
 
   try {
-     const user = await User.findOne({ email: normalizedEmail }).select("+password");
-   console.log(user.tenantId);
-   
+    const user = await User.findOne({ email: normalizedEmail }).select("+password");
+
     if (!user) {
       return res.status(401).json({
         success: false,
         message: "Invalid email or password",
       });
     }
+    
+  
 
-    const passwordMatches = await bcrypt.compare(password, user.password);
+      const passwordMatches = await bcrypt.compare(password, user.password);
 
     if (!passwordMatches) {
       return res.status(401).json({
@@ -31,7 +32,7 @@ export const loginController = async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { id: user._id.toString(), role: user.role , tenantId:user.tenantId},
+      { id: user._id.toString(), role: user.role, tenantId: user.role != "super_admin" ? user.tenantId : null},
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );

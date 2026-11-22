@@ -45,7 +45,8 @@ export const getTicketController = async (req, res, next) => {
     return res.status(200).json({
       count: tickets.length,
       tickets: tickets,
-      nextCursor: nextCursor
+      nextCursor: nextCursor,
+      hasNextPage:hasMore
     });
   } catch (error) {
     return next(error);
